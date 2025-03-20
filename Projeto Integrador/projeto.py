@@ -10,25 +10,36 @@ while controle == "S":
     if __name__ == "__main__":
         main()
     #Entrada de consumo de água e validação do dado
-    consumoagua = float(input("Informe seu consumo de água informado na conta de água(Litros/Dia): "))
-    while consumoagua == 0 or consumoagua < 0:
+    try:
+        consumoagua = float(input("Informe seu consumo de água informado na conta de água(Litros/Dia): "))
+        while consumoagua == 0 or consumoagua < 0:
+            consumoagua = float(input("Valor inválido, insira um valor válido: "))
+    except ValueError:
         consumoagua = float(input("Valor inválido, insira um valor válido: "))
 
     #Entrada do Lixo Reciclável e validação do dado
-    LixoR = float(input("Informe a porcentagem de lixo reciclável: "))
-    while LixoR < 0 or LixoR > 100:
+    try:
+        LixoR = float(input("Informe a porcentagem de lixo reciclável: "))
+        while LixoR < 0 or LixoR > 100:
+            LixoR = float(input("Valor inválido, insira um valor válido: "))
+    except ValueError:
         LixoR = float(input("Valor inválido, insira um valor válido: "))
     
     #Entrada do Lixo Total e validação do dado
-    LixoT = float(input("Informe quantos Kg de lixo total você produz: "))
-    while LixoT == 0 or LixoT < 0:
+    try:
+        LixoT = float(input("Informe quantos Kg de lixo total você produz: "))
+        while LixoT == 0 or LixoT < 0:
+            LixoT = float(input("Valor inválido, insira um valor válido: "))
+    except ValueError:
         LixoT = float(input("Valor inválido, insira um valor válido: "))
     
     #Entrada do consumo de energia e validação do dado
-    consumoenergia = float(input("Informe seu consumo de energia informado na sua conta de energia(Kwh/Dia): "))
-    while consumoenergia == 0 or consumoenergia < 0:
+    try:
+        consumoenergia = float(input("Informe seu consumo de energia informado na sua conta de energia(Kwh/Dia): "))
+        while consumoenergia == 0 or consumoenergia < 0:
+            consumoenergia = float(input("Valor inválido, insira um valor válido: "))
+    except ValueError:
         consumoenergia = float(input("Valor inválido, insira um valor válido: "))
-    
     #entrada da opção de veículos e validação da opção escolhida
     print("[1] Bicicleta, transporte público ou elétrico")
     print("[2] Uso misto de transporte público ou privado")
