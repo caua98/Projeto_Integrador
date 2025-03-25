@@ -3,7 +3,14 @@ controle = "S"
 
 #repetição do teste até o fim do usuário
 while controle == "S":
-    
+
+    #Entrada de data do usuário e validação do dado
+    try:
+        data = input("Informe a data de hoje: ")
+        while len(data) != 10:
+            data = input("Data inválida, insira uma data válida: ")
+    except ValueError:
+        data = input("Data inválida, insira uma data válida: ")
     #Entrada de consumo de água e validação do dado
     try:
         consumoagua = float(input("Informe seu consumo de água informado na conta de água(Litros/Dia): "))
@@ -104,6 +111,8 @@ while controle == "S":
         print("2 - Moderada sustentabilidade")
     elif (bicicleta == "N" and caminhada == "N" and carroE == "N" and transportepublico == "N") and (carroF == "S" or carona == "S"):
         print("3 - Baixa sustentabilidade")
+    else:
+        print("Você não escolheu nenhuma opção de transporte!!!")
 
     #ver se o usuário quer realizar denovo
     controle = input("Quer fazer uma nova consulta?(S / N): ")
