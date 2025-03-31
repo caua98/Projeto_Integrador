@@ -41,12 +41,42 @@ while controle == "S":
     except ValueError:
         consumoenergia = float(input("Valor inválido, insira um valor válido: "))
     #entrada da opção de veículos e validação da opção escolhida
-    print("[1] Bicicleta, transporte público ou elétrico")
-    print("[2] Uso misto de transporte público ou privado")
-    print("[3] Uso exclusivo de transporte a combustíveis fósseis")
-    op = input("Informe o tipo de veículo que você mais utiliza: ")
-    while op != "1" and op != "2" and op != "3":
-        op = input("Opção inválida, escolha uma opção apresentada: ")
+    try:
+        bicicleta = input("Você utiliza bicicleta como meio de transporte?(S / N): ")
+        while bicicleta != "S" and bicicleta != "N":
+            bicicleta = input("Valor inválido, escolha S ou N: ")
+    except ValueError:
+        bicicleta = input("Valor inválido, escolha S ou N: ")
+    try:
+        transportepublico = input("Você utiliza transporte público como meio de transporte?(S / N): ")
+        while transportepublico != "S" and transportepublico != "N":
+            transportepublico = input("Valor inválido, escolha S ou N: ")
+    except ValueError:
+        transportepublico = input("Valor inválido, escolha S ou N: ")
+    try:
+        caminhada = input("Você utiliza a caminhada como meio de transporte?(S / N): ")
+        while caminhada != "S" and caminhada != "N":
+            caminhada = input("Valor inválido, escolha S ou N: ")
+    except ValueError:
+        caminhada = input("Valor inválido, escolha S ou N: ")
+    try:
+        carroF = input("Você utiliza carro com combustível fósseis como meio de transporte?(S / N): ")
+        while carroF != "S" and carroF != "N":
+            carroF = input("Valor inválido, escolha S ou N: ")
+    except ValueError:
+        carroF = input("Valor inválido, escolha S ou N: ")
+    try:
+        carroE = input("Você utiliza carro elétrico como meio de transporte?(S / N): ")
+        while carroE != "S" and carroE != "N":
+            carroE = input("Valor inválido, escolha S ou N: ")
+    except ValueError:
+        carroE = input("Valor inválido, escolha S ou N: ")
+    try:
+        carona = input("Você utiliza carona como meio de transporte?(S / N): ")
+        while carona != "S" and carona != "N":
+            carona = input("Valor inválido, escolha S ou N: ")
+    except ValueError:
+        carona = input("Valor inválido, escolha S ou N: ")
 
     #teste água
     if consumoagua < 150:
@@ -72,12 +102,17 @@ while controle == "S":
         print("Seu consumo de energia é de baixa sustentabilidade!!!")
     
     #teste veículo
-    if op == "1":
-        print("Seu uso de transporte é de alta sustentabilidade!!!")
-    elif op == "2":
-        print("Seu uso de transporte é de moderada sustentabilidade!!!")
-    elif op == "3":
-        print("Seu uso de transporte é de baixa sustentabilidade!!!")
+    if (bicicleta == "S" or caminhada == "S" or carroE == "S" or transportepublico == "S") and (carroF == "N" and carona == "N"):
+        print("1 - Alta sustentabilidade")
+        op = "Alta sustentabilidade"
+    elif (bicicleta == "S" or caminhada == "S" or carroE == "S" or transportepublico == "S") and (carroF == "S" or carona == "S"):
+        print("2 - Moderada sustentabilidade")
+        op = "Moderada sustentabilidade"
+    elif (bicicleta == "N" and caminhada == "N" and carroE == "N" and transportepublico == "N") and (carroF == "S" or carona == "S"):
+        print("3 - Baixa sustentabilidade")
+        op = "Baixa sustentabilidade"
+    else:
+        print("Você não escolheu nenhuma opção de transporte!!!")  
 
     #inserção dos dados no banco de dados
     if __name__ == "__main__":
