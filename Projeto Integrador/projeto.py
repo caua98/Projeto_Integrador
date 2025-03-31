@@ -103,13 +103,13 @@ while controle == "S":
     
     #teste veículo
     if (bicicleta == "S" or caminhada == "S" or carroE == "S" or transportepublico == "S") and (carroF == "N" and carona == "N"):
-        print("1 - Alta sustentabilidade")
+        print("Seu uso de transporte é de Alta sustentabilidade")
         op = "Alta sustentabilidade"
     elif (bicicleta == "S" or caminhada == "S" or carroE == "S" or transportepublico == "S") and (carroF == "S" or carona == "S"):
-        print("2 - Moderada sustentabilidade")
+        print("Seu uso de transporte é de Moderada sustentabilidade")
         op = "Moderada sustentabilidade"
     elif (bicicleta == "N" and caminhada == "N" and carroE == "N" and transportepublico == "N") and (carroF == "S" or carona == "S"):
-        print("3 - Baixa sustentabilidade")
+        print("Seu uso de transporte é de Baixa sustentabilidade")
         op = "Baixa sustentabilidade"
     else:
         print("Você não escolheu nenhuma opção de transporte!!!")  
