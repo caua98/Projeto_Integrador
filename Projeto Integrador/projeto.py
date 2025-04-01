@@ -9,6 +9,13 @@ def main():
 while controle == "S":
     if __name__ == "__main__":
         main()
+#Entrada de data do usuário e validação do dado
+    try:
+        data = int(input("Informe a data de hoje: "))
+        while data > 31:
+            data = int(input("Data inválida, insira uma data válida: "))
+    except ValueError:
+        data =int(input("Data inválida, insira uma data válida: "))
     #Entrada de consumo de água e validação do dado
     try:
         consumoagua = float(input("Informe seu consumo de água informado na conta de água(Litros/Dia): "))
