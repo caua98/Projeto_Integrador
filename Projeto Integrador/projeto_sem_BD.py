@@ -6,11 +6,11 @@ while controle == "S":
 
     #Entrada de data do usuário e validação do dado
     try:
-        data = input("Informe a data de hoje: ")
-        while len(data) != 10:
-            data = input("Data inválida, insira uma data válida: ")
+        data = int(input("Informe a data de hoje: "))
+        while data > 31:
+            data = int(input("Data inválida, insira uma data válida: "))
     except ValueError:
-        data = input("Data inválida, insira uma data válida: ")
+        data =int(input("Data inválida, insira uma data válida: "))
     #Entrada de consumo de água e validação do dado
     try:
         consumoagua = float(input("Informe seu consumo de água informado na conta de água(Litros/Dia): "))
@@ -80,7 +80,8 @@ while controle == "S":
             carona = input("Valor inválido, escolha S ou N: ")
     except ValueError:
         carona = input("Valor inválido, escolha S ou N: ")
-
+    print("")
+    print("###############################################################")
     #teste água
     if consumoagua < 150:
         print("Seu consumo de água é de alta sustentabilidade!!!")
