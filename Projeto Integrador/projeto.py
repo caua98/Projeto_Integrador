@@ -1,5 +1,7 @@
 #Importação de bibliotecas
 from conexeplo import *
+from cifra_de_palavra import *
+from cifra_num_final import *
 controle = "S"
 #Conexão do banco de dados
 def main():
@@ -12,11 +14,12 @@ while controle == "S":
         main()
 #Entrada de data do usuário e validação do dado
     try:
-        data = int(input("Informe a data de hoje: "))
-        while data > 31:
-            data = int(input("Data inválida, insira uma data válida: "))
+        data = (input("Informe a data de hoje: "))
+        while int(data) > 31:
+            data = input("Data inválida, insira uma data válida: ")
     except ValueError:
-        data =int(input("Data inválida, insira uma data válida: "))
+        data = input("Data inválida, insira uma data válida: ")
+    dataC = cifra_hill(data, key_matrix)
     #Entrada de consumo de água e validação do dado
     try:
         consumoagua = float(input("Informe seu consumo de água informado na conta de água(Litros/Dia): "))
@@ -24,7 +27,7 @@ while controle == "S":
             consumoagua = float(input("Valor inválido, insira um valor válido: "))
     except ValueError:
         consumoagua = float(input("Valor inválido, insira um valor válido: "))
-
+    consumoaguaC = cifra_hill(str(consumoagua).replace(".", ""), key_matrix)
     #Entrada do Lixo Reciclável e validação do dado
     try:
         LixoR = float(input("Informe a porcentagem de lixo reciclável: "))
@@ -32,6 +35,8 @@ while controle == "S":
             LixoR = float(input("Valor inválido, insira um valor válido: "))
     except ValueError:
         LixoR = float(input("Valor inválido, insira um valor válido: "))
+    LixoRC = cifra_hill(str(LixoR).replace(".", ""), key_matrix)
+
     
     #Entrada do Lixo Total e validação do dado
     try:
@@ -40,6 +45,7 @@ while controle == "S":
             LixoT = float(input("Valor inválido, insira um valor válido: "))
     except ValueError:
         LixoT = float(input("Valor inválido, insira um valor válido: "))
+    LixoTC = cifra_hill(str(LixoT).replace(".", ""), key_matrix)
     
     #Entrada do consumo de energia e validação do dado
     try:
@@ -48,6 +54,7 @@ while controle == "S":
             consumoenergia = float(input("Valor inválido, insira um valor válido: "))
     except ValueError:
         consumoenergia = float(input("Valor inválido, insira um valor válido: "))
+    consumoenergiaC = cifra_hill(str(consumoenergia).replace(".", ""), key_matrix)
     #entrada da opção de veículos e validação da opção escolhida
     try:
         bicicleta = input("Você utiliza bicicleta como meio de transporte?(S / N): ")
@@ -112,19 +119,22 @@ while controle == "S":
     #teste veículo
     if (bicicleta == "S" or caminhada == "S" or carroE == "S" or transportepublico == "S") and (carroF == "N" and carona == "N"):
         print("Seu uso de transporte é de Alta sustentabilidade")
-        op = "Alta sustentabilidade"
+        op = "ALTA"
     elif (bicicleta == "S" or caminhada == "S" or carroE == "S" or transportepublico == "S") and (carroF == "S" or carona == "S"):
         print("Seu uso de transporte é de Moderada sustentabilidade")
-        op = "Moderada sustentabilidade"
+        op = "MODERADA"
     elif (bicicleta == "N" and caminhada == "N" and carroE == "N" and transportepublico == "N") and (carroF == "S" or carona == "S"):
         print("Seu uso de transporte é de Baixa sustentabilidade")
-        op = "Baixa sustentabilidade"
+        op = "BAIXA"
     else:
-        print("Você não escolheu nenhuma opção de transporte!!!")  
+        print("Você não escolheu nenhuma opção de transporte!!!")
+        op = "NA"
+    opC = cifra_palavra(op, key_matrix)
+  
 
     #inserção dos dados no banco de dados
     if __name__ == "__main__":
-        insert_data(consumoagua, LixoR, LixoT, consumoenergia, op)
+        insert_data(consumoaguaC, LixoRC, LixoTC, consumoenergiaC, opC)
     #ver se o usuário quer realizar denovo
     controle = input("Quer fazer uma nova consulta?(S / N): ")
     while controle != "S"and controle != "N":

@@ -27,7 +27,7 @@ def inversa_modular(matrix, mod):
     return (det_inv * adjugate) % mod
 
 # Função para codificar usando a cifra de Hill
-def cifra_hill(palavra, key_matrix):
+def cifra_palavra(palavra, key_matrix):
     palavra = palavra.upper()
     pares = [palavra[i:i+2] for i in range(0, len(palavra), 2)]
     
@@ -67,16 +67,3 @@ def decifra_hill(mensagem_codificada, key_matrix):
         mensagem_decodificada += num_letras[resultado[1][0] if resultado[1][0] != 0 else 26]
     
     return mensagem_decodificada
-
-# Entrada do usuário
-palavra = input('Digite uma palavra: ').upper()
-mensagem_codificada = cifra_hill(palavra, key_matrix)
-print("Mensagem codificada:", mensagem_codificada)
-# Decodifica a mensagem usando a cifra de Hill
-mensagem_decodificada = decifra_hill(mensagem_codificada, key_matrix)
-if mensagem_decodificada[-1] == mensagem_decodificada[-2]:
-    mensagem_decodificada = mensagem_decodificada[:-1]  # Remove o caractere de preenchimento se presente
-else:
-    mensagem_decodificada = mensagem_decodificada.rstrip('X')  # Remove o caractere de preenchimento se presente
-# Exibe a mensagem decodificada
-print("Mensagem decodificada:", mensagem_decodificada)

@@ -59,14 +59,3 @@ def decifra_hill(mensagem_codificada, key_matrix):
         mensagem_decodificada += num_letras[resultado[1][0] if resultado[1][0] != 0 else 10]
     
     return mensagem_decodificada
-
-# Entrada do usuário
-palavra = input('Digite uma palavra: ').upper() # Remove espaços e converte para maiúsculas
-
-# Codifica a palavra usando a cifra de Hill
-mensagem_codificada = cifra_hill(palavra, key_matrix).replace('X', '0') # Remove o caractere de preenchimento 'X' da mensagem codificada
-print("Mensagem codificada:", mensagem_codificada)
-
-mensagem_decodificada = decifra_hill(mensagem_codificada, key_matrix).replace('X', '0') # Remove o caractere de preenchimento 'X' da mensagem decodificada
-# Exibe a mensagem decodificada
-print("Mensagem decodificada:", mensagem_decodificada)
