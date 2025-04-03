@@ -1,3 +1,4 @@
+#Importação de bibliotecas
 from conexeplo import *
 controle = "S"
 #Conexão do banco de dados
