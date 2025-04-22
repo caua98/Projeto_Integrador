@@ -37,22 +37,6 @@ def insert_data(consumoagua, LixoR, LixoT, consumoenergia, op, data):
     cursor.close()
     conn.close()
 
-def fetch_data(data):
-    conn = connect_to_database()
-    if conn is None:
-        print("Não foi possível conectar ao banco de dados.")
-        return
-
-    cursor = conn.cursor()
-    cursor.execute('''
-        SELECT * FROM dados_sustentavel where data_entrada = %s
-    ''', (data,))
-    rows = cursor.fetchall()
-    return rows
-
-    # Exibindo os dados retornados
-    cursor.close()
-    conn.close()
 
 def fetch_averages_by_date(data):
     conn = connect_to_database()
@@ -102,10 +86,10 @@ def fetch_averages_by_date(data):
     print(f"\nRegistros encontrados para a data {data}:")
     if registros:
         for registro in registros:
-            print(f"Consumo de Água: {registro[0]} Litros/Dia, "
-                  f"Lixo Reciclável: {registro[1]} %, "
-                  f"Lixo Total: {registro[2]} Kg, "
-                  f"Consumo de Energia: {registro[3]} Kwh/Dia, "
+            print(f"Consumo de Água: {registro[0]} Litros/Dia {"(Alta Sustentabilidade)" if registro[0] < 150 else "(Moderada Sustentabilidade)" if registro[0] >= 150 and registro[0] <= 200  else "(Baixa Sustentabilidade)"}, "
+                  f"Lixo Reciclável: {registro[1]} % {"(Alta Sustentabilidade)" if registro[1] > 50 else "(Moderada Sustentabilidade)" if registro[1] >= 20 and registro[1] <= 50  else "(Baixa Sustentabilidade)"},"
+                  f"Lixo Total: {registro[2]} Kg {"(Alta Sustentabilidade)" if registro[1] > 50 else "(Moderada Sustentabilidade)" if registro[1] >= 20 and registro[1] <= 50  else "(Baixa Sustentabilidade)"},"
+                  f"Consumo de Energia: {registro[3]} Kwh/Dia {"(Alta Sustentabilidade)" if registro[3] < 5 else "(Moderada Sustentabilidade)" if registro[3] >= 5 and registro[3] <= 10 else "Baixa Sustentabilidade"}, "
                   f"Opção de Veículos: {registro[4]}, "
                   f"Data de Entrada: {registro[5]}")
     else:

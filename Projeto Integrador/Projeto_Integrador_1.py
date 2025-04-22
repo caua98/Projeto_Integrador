@@ -90,11 +90,11 @@ while controle == "S":
     elif consumoagua > 250:
         print("Seu consumo de água é de baixa sustentabilidade!!!")
     
-    if 100-LixoR < 50:
+    if LixoR > 50:
         print("Seu consumo de lixo reciclável é de alta sustentabilidade!!!")
-    elif 100-LixoR <= 30 and LixoR >= 50:
+    elif LixoR >= 20 and LixoR <= 50:
         print("Seu consumo de lixo reciclável é de moderada sustentabilidade!!!")
-    elif 100-LixoR > 30:
+    elif LixoR < 20:
         print("Seu consumo de lixo reciclável é de baixa sustentabilidade!!!")
     
     #teste energia
