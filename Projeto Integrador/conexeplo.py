@@ -74,7 +74,14 @@ def fetch_averages_by_date(data):
     ''', (data,))
     averages = cursor.fetchone()
 
-    # Consulta para verificar a coluna op_veiculos
+    # Consulta para buscar todos os registros da data fornecida
+    cursor.execute('''
+        SELECT consumo_agua, lixo_reciclavel, lixo_total, consumo_energia, op_veiculos, data_entrada
+        FROM dados_sustentavel
+        WHERE data_entrada = %s
+    ''', (data,))
+    registros = cursor.fetchall()
+
     cursor.execute('''
         SELECT DISTINCT op_veiculos
         FROM dados_sustentavel
@@ -91,15 +98,29 @@ def fetch_averages_by_date(data):
     else:
         resultado_op = "MODERADA"
 
+    # Exibindo os registros
+    print(f"\nRegistros encontrados para a data {data}:")
+    if registros:
+        for registro in registros:
+            print(f"Consumo de Água: {registro[0]} Litros/Dia, "
+                  f"Lixo Reciclável: {registro[1]} %, "
+                  f"Lixo Total: {registro[2]} Kg, "
+                  f"Consumo de Energia: {registro[3]} Kwh/Dia, "
+                  f"Opção de Veículos: {registro[4]}, "
+                  f"Data de Entrada: {registro[5]}")
+    else:
+        print("Nenhum registro encontrado para a data fornecida.")
+
     # Exibindo as médias
     if averages and any(averages):
+        print(f"\nMédias para a data {data}:")
         print(f"Média de Consumo de Água: {averages[0]:.2f} Litros/Dia")
         print(f"Média de Consumo de Energia: {averages[1]:.2f} Kwh/Dia")
         print(f"Média de Lixo Total: {averages[2]:.2f} Kg")
         print(f"Média de Lixo Reciclável: {averages[3]:.2f} %")
         print(f"Resultado das Opções de Veículos: {resultado_op}")
     else:
-        print(f"Nenhum dado encontrado para a data: {data}")
+        print(f"\nNenhuma média calculada para a data: {data}")
 
     cursor.close()
     conn.close()
