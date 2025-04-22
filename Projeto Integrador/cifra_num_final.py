@@ -42,7 +42,7 @@ def cifra_hill(palavra, key_matrix):
     
     return mensagem_codificada
 
-def decifra_hill(mensagem_codificada, key_matrix):
+def decifra_num(mensagem_codificada, key_matrix):
     inversa_key_matrix = inversa_modular(key_matrix, 10) # Calcula a matriz inversa no módulo 26
     pares = [mensagem_codificada[i:i+2] for i in range(0, len(mensagem_codificada), 2)]
     

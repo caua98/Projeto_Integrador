@@ -11,7 +11,7 @@ def main():
         connection.close()
 #repetição do teste até o fim do usuário
 while controle == "S":
-    escolha = input("Escolha uma opção:\n1 - Cadastrar\n2 - Consultar")
+    escolha = input("Escolha uma opção:\n1 - Cadastrar\n2 - Consultar\n")
     while escolha != "1" and escolha != "2":
         escolha = input("Valor inválido, escolha 1 ou 2: ")
     if escolha == "1":
@@ -110,7 +110,7 @@ while controle == "S":
         opC = cifra_palavra(op, key_matrix)
         #inserção dos dados no banco de dados
         if __name__ == "__main__":
-            insert_data(consumoaguaC, LixoRC, LixoTC, consumoenergiaC, opC, dataC)
+            insert_data(consumoagua, LixoR, LixoT, consumoenergia, op, data)
 
     if escolha == "2":     
         try:
@@ -120,10 +120,7 @@ while controle == "S":
         except ValueError:
             data = int(input("Data inválida, insira uma data válida: "))
         dataC = cifra_hill(str(data), key_matrix)
-        rows = fetch_data(dataC)
-        for row in rows:
-            print(f"Consumo de Água: {row[0]}, Lixo Reciclável: {row[1]}, Lixo Total: {row[2]}, Consumo de Energia: {row[3]}, Opção de Veículos: {row[4]}")
-        
+        fetch_averages_by_date(data)
     #ver se o usuário quer realizar denovo
     controle = input("Quer fazer uma nova consulta?(S / N): ")
     while controle != "S"and controle != "N":

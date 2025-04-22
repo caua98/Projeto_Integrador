@@ -50,7 +50,7 @@ def cifra_palavra(palavra, key_matrix):
     return mensagem_codificada
 
 # Função para descriptografar usando a cifra de Hill
-def decifra_hill(mensagem_codificada, key_matrix):
+def decifra_palavra(mensagem_codificada, key_matrix):
     inversa_key_matrix = inversa_modular(key_matrix, 26)  # Calcula a matriz inversa no módulo 26
     pares = [mensagem_codificada[i:i+2] for i in range(0, len(mensagem_codificada), 2)]
     

@@ -53,3 +53,53 @@ def fetch_data(data):
     # Exibindo os dados retornados
     cursor.close()
     conn.close()
+
+def fetch_averages_by_date(data):
+    conn = connect_to_database()
+    if conn is None:
+        print("Não foi possível conectar ao banco de dados.")
+        return
+
+    cursor = conn.cursor()
+
+    # Consulta para calcular as médias
+    cursor.execute('''
+        SELECT 
+            AVG(consumo_agua) AS media_consumo_agua,
+            AVG(consumo_energia) AS media_consumo_energia,
+            AVG(lixo_total) AS media_lixo_total,
+            AVG(lixo_reciclavel) AS media_lixo_reciclavel
+        FROM dados_sustentavel
+        WHERE data_entrada = %s
+    ''', (data,))
+    averages = cursor.fetchone()
+
+    # Consulta para verificar a coluna op_veiculos
+    cursor.execute('''
+        SELECT DISTINCT op_veiculos
+        FROM dados_sustentavel
+        WHERE data_entrada = %s
+    ''', (data,))
+    opcoes = cursor.fetchall()
+
+    # Determinar o resultado com base nos valores de op_veiculos
+    opcoes = [op[0] for op in opcoes]  # Extrair os valores da consulta
+    if len(opcoes) == 1 and opcoes[0] == "ALTA":
+        resultado_op = "ALTA"
+    elif len(opcoes) == 1 and opcoes[0] == "BAIXA":
+        resultado_op = "BAIXA"
+    else:
+        resultado_op = "MODERADA"
+
+    # Exibindo as médias
+    if averages and any(averages):
+        print(f"Média de Consumo de Água: {averages[0]:.2f} Litros/Dia")
+        print(f"Média de Consumo de Energia: {averages[1]:.2f} Kwh/Dia")
+        print(f"Média de Lixo Total: {averages[2]:.2f} Kg")
+        print(f"Média de Lixo Reciclável: {averages[3]:.2f} %")
+        print(f"Resultado das Opções de Veículos: {resultado_op}")
+    else:
+        print(f"Nenhum dado encontrado para a data: {data}")
+
+    cursor.close()
+    conn.close()
