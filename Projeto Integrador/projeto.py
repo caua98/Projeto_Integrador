@@ -1,5 +1,4 @@
-#Importação de bibliotecas
-from conexeplo import *
+from conexao import *
 from cifra_de_palavra import *
 from cifra_num_final import *
 controle = "S"
