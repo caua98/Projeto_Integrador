@@ -98,10 +98,10 @@ def fetch_averages_by_date(data):
     # Exibindo as médias
     if averages and any(averages):
         print(f"\nMédias para a data {data}:")
-        print(f"Média de Consumo de Água: {averages[0]:.2f} Litros/Dia")
-        print(f"Média de Consumo de Energia: {averages[1]:.2f} Kwh/Dia")
-        print(f"Média de Lixo Total: {averages[2]:.2f} Kg")
-        print(f"Média de Lixo Reciclável: {averages[3]:.2f} %")
+        print(f"Média de Consumo de Água: {averages[0]:.2f} Litros/Dia {"(Alta Sustentabilidade)" if averages[0] < 150 else "(Moderada Sustentabilidade)" if averages[0] >= 150 and averages[0] <= 200  else "(Baixa Sustentabilidade)"}")
+        print(f"Média de Consumo de Energia: {averages[1]:.2f} Kwh/Dia {"(Alta Sustentabilidade)" if averages[1] < 5 else "(Moderada Sustentabilidade)" if averages[1] >= 5 and averages[3] <= 10 else "Baixa Sustentabilidade"}")
+        print(f"Média de Lixo Total: {averages[2]:.2f} Kg {"(Alta Sustentabilidade)" if averages[3] > 50 else "(Moderada Sustentabilidade)" if averages[3] >= 20 and averages[3] <= 50  else "(Baixa Sustentabilidade)"}")
+        print(f"Média de Lixo Reciclável: {averages[3]:.2f} % {"(Alta Sustentabilidade)" if averages[3] > 50 else "(Moderada Sustentabilidade)" if averages[3] >= 20 and averages[3] <= 50  else "(Baixa Sustentabilidade)"}")
         print(f"Resultado das Opções de Veículos: {resultado_op}")
     else:
         print(f"\nNenhuma média calculada para a data: {data}")
