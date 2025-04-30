@@ -5,7 +5,7 @@ while op == "S":
     print("Escolha uma opção: \n 1 - Inserir dados \n 2 - Alterar dados \n 3 - Apagar dados \n 4 - Consultar dados \n 5 - Consultar Médias \n 6 - Sair")
     op = input("Opção: ")
     if op == "1":
-        inserir_dados()
+        inserir_dados(None, None, None, None, None, None)
     elif op == "2":
         alterar_dados()
     elif op == "3":

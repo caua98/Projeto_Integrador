@@ -21,7 +21,7 @@ def inversa_modular(matrix, mod):
     return (det_inv * adjugate) % mod
 # Função para codificar usando a cifra de Hill
 def cifra_hill(palavra, key_matrix):
-    palavra = palavra.upper()
+    palavra = str(palavra).upper()
     pares = [palavra[i:i+2] for i in range(0, len(palavra), 2)]
     
     # Adiciona um caractere de preenchimento se o número de letras for ímpar
