@@ -7,13 +7,13 @@ while op == "S":
     if op == "1":
         inserir_dados(None, None, None, None, None, None)
     elif op == "2":
-        alterar_dados()
+        alterar_dados(None, None, None, None, None, None)
     elif op == "3":
-        apagar_dados()
+        apagar_dados(None)
     elif op == "4":
-        consultar_dados()
+        consultar_dados(None)
     elif op == "5":
-        consultar_medias()
+        consultar_medias(None)
     elif op == "6":
         print("Saindo...")
         op = "N"

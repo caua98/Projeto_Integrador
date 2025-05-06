@@ -19,13 +19,13 @@ def connect_to_database():
 def inserir_dados(consumoagua, LixoR, LixoT, consumoenergia, op, data):
     conn = connect_to_database()
     consumoagua = float(input("Informe seu consumo de água informado na conta de água(Litros/Dia): "))
-    consumoagua = cifra_hill(consumoagua, key_matrix)
+    consumoagua = cifra_hill(str(consumoagua), key_matrix)
     LixoR = float(input("Informe a porcentagem de lixo reciclável: "))
-    LixoR = cifra_hill(LixoR, key_matrix)
+    LixoR = cifra_hill(str(LixoR), key_matrix)
     LixoT = float(input("Informe quantos Kg de lixo total você produz: "))
-    LixoT = cifra_hill(LixoT, key_matrix)
+    LixoT = cifra_hill(str(LixoT), key_matrix)
     consumoenergia = float(input("Informe seu consumo de energia informado na sua conta de energia(Kwh/Dia): "))
-    consumoenergia = cifra_hill(consumoenergia, key_matrix)
+    consumoenergia = cifra_hill(str(consumoenergia), key_matrix)
     try:
         bicicleta = input("Você utiliza bicicleta como meio de transporte?(S / N): ")
         while bicicleta != "S" and bicicleta != "N":
@@ -63,11 +63,11 @@ def inserir_dados(consumoagua, LixoR, LixoT, consumoenergia, op, data):
     except ValueError:
         carona = input("Valor inválido, escolha S ou N: ")
     if (bicicleta == "S" or caminhada == "S" or carroE == "S" or transportepublico == "S") and (carroF == "N" and carona == "N"):
-        op = cifra_palavra("Alta sustentabilidade", key_matrix)
+        op = cifra_palavra("Alta", key_matrix)
     elif (bicicleta == "S" or caminhada == "S" or carroE == "S" or transportepublico == "S") and (carroF == "S" or carona == "S"):
-        op = cifra_palavra("Media sustentabilidade", key_matrix)
+        op = cifra_palavra("Media", key_matrix)
     elif (bicicleta == "N" and caminhada == "N" and carroE == "N" and transportepublico == "N") and (carroF == "S" or carona == "S"):
-        op = cifra_palavra("Baixa sustentabilidade", key_matrix)
+        op = cifra_palavra("Baixa", key_matrix)
     else:
         op = None
     data = int(input("Informe a data de hoje: "))
@@ -94,13 +94,13 @@ def alterar_dados(novaagua, novalixoR, novalixoT, novaenergia, op, data):
     data = int(input("Informe a data que deseja alterar: "))
     data = cifra_hill(data, key_matrix)
     novaagua = float(input("Informe seu novo consumo de água informado na conta de água(Litros/Dia): "))
-    novaagua = cifra_hill(novaagua, key_matrix)
+    novaagua = cifra_hill(str(novaagua), key_matrix)
     novalixoR = float(input("Informe a nova porcentagem de lixo reciclável: "))
-    novalixoR = cifra_hill(novalixoR, key_matrix)
+    novalixoR = cifra_hill(str(novalixoR), key_matrix)
     novalixoT = float(input("Informe quantos Kg de lixo total você produz: "))
-    novalixoT = cifra_hill(novalixoT, key_matrix)
+    novalixoT = cifra_hill(str(novalixoT), key_matrix)
     novaenergia = float(input("Informe seu novo consumo de energia informado na sua conta de energia(Kwh/Dia): "))
-    novaenergia = cifra_hill(novaenergia, key_matrix)
+    novaenergia = cifra_hill(str(novaenergia), key_matrix)
     try:
         bicicleta = input("Você utiliza bicicleta como meio de transporte?(S / N): ")
         while bicicleta != "S" and bicicleta != "N":
@@ -138,11 +138,11 @@ def alterar_dados(novaagua, novalixoR, novalixoT, novaenergia, op, data):
     except ValueError:
         carona = input("Valor inválido, escolha S ou N: ")
     if (bicicleta == "S" or caminhada == "S" or carroE == "S" or transportepublico == "S") and (carroF == "N" and carona == "N"):
-        op = cifra_palavra("Alta sustentabilidade", key_matrix)
+        op = cifra_palavra("Alta", key_matrix)
     elif (bicicleta == "S" or caminhada == "S" or carroE == "S" or transportepublico == "S") and (carroF == "S" or carona == "S"):
-        op = cifra_palavra("Media sustentabilidade", key_matrix)
+        op = cifra_palavra("Media", key_matrix)
     elif (bicicleta == "N" and caminhada == "N" and carroE == "N" and transportepublico == "N") and (carroF == "S" or carona == "S"):
-        op = cifra_palavra("Baixa sustentabilidade", key_matrix)
+        op = cifra_palavra("Baixa", key_matrix)
     else:
         op = None
     conn = connect_to_database()
@@ -158,7 +158,7 @@ def alterar_dados(novaagua, novalixoR, novalixoT, novaenergia, op, data):
 
 def apagar_dados(data):
     data = int(input("Informe a data que deseja apagar: "))
-    data = cifra_hill(data, key_matrix)
+    data = cifra_hill(str(data), key_matrix)
     conn = connect_to_database()
     cursor = conn.cursor()
     cursor.execute('''
@@ -170,7 +170,7 @@ def apagar_dados(data):
 
 def consultar_dados(data):
     data = int(input("Informe a data que deseja consultar: "))
-    data = cifra_hill(data, key_matrix)
+    data = cifra_hill(str(data), key_matrix)
     conn = connect_to_database()
     cursor = conn.cursor()
     cursor.execute('''
@@ -189,43 +189,53 @@ def consultar_dados(data):
     cursor.close()
     conn.close()
 
-def consultar_medias(data):
+def consultar_medias():
     data = int(input("Informe a data que deseja consultar: "))
     conn = connect_to_database()
+    if conn is None:
+        print("Erro ao conectar ao banco de dados.")
+        return
+
     cursor = conn.cursor()
+
+    # Consulta para buscar os dados da data fornecida
     cursor.execute('''
         SELECT consumo_agua, consumo_energia, lixo_total, lixo_reciclavel, op_veiculos
         FROM dados_sustentavel
         WHERE data_entrada = %s
-    ''', (cifra_hill(data,key_matrix),))
+    ''', (cifra_hill(str(data), key_matrix),))
     registros = cursor.fetchall()
 
-    # Decifrar os dados antes de calcular as médias
+    if not registros:
+        print("Nenhum registro encontrado para a data fornecida.")
+        cursor.close()
+        conn.close()
+        return
+
+    # Decifrar os dados
     consumo_agua_decifrado = [decifra_num(registro[0], key_matrix) for registro in registros]
     consumo_energia_decifrado = [decifra_num(registro[1], key_matrix) for registro in registros]
     lixo_total_decifrado = [decifra_num(registro[2], key_matrix) for registro in registros]
     lixo_reciclavel_decifrado = [decifra_num(registro[3], key_matrix) for registro in registros]
+    opcoes_veiculos = [decifra_palavra(registro[4], key_matrix) for registro in registros]
 
     # Calcular as médias
-    media_consumo_agua = sum(consumo_agua_decifrado) / len(consumo_agua_decifrado) if consumo_agua_decifrado else 0
-    media_consumo_energia = sum(consumo_energia_decifrado) / len(consumo_energia_decifrado) if consumo_energia_decifrado else 0
-    media_lixo_total = sum(lixo_total_decifrado) / len(lixo_total_decifrado) if lixo_total_decifrado else 0
-    media_lixo_reciclavel = sum(lixo_reciclavel_decifrado) / len(lixo_reciclavel_decifrado) if lixo_reciclavel_decifrado else 0
+    media_consumo_agua = sum(consumo_agua_decifrado) / len(consumo_agua_decifrado)
+    media_consumo_energia = sum(consumo_energia_decifrado) / len(consumo_energia_decifrado)
+    media_lixo_total = sum(lixo_total_decifrado) / len(lixo_total_decifrado)
+    media_lixo_reciclavel = sum(lixo_reciclavel_decifrado) / len(lixo_reciclavel_decifrado)
 
     # Determinar a sustentabilidade com base nas opções de veículos
-    opcoes_veiculos = [decifra_palavra(registro[4], key_matrix) for registro in registros]
-    if len(opcoes_veiculos) == 1 and opcoes_veiculos[0] == "ALTA":
-        resultado_op = "ALTA"
-    elif len(opcoes_veiculos) == 1 and opcoes_veiculos[0] == "BAIXA":
-        resultado_op = "BAIXA"
+    if len(set(opcoes_veiculos)) == 1:
+        resultado_op = opcoes_veiculos[0]
     else:
         resultado_op = "MODERADA"
 
     # Exibir os resultados
-    print(f"Média de consumo de água: {media_consumo_agua} Litros/Dia {'(Alta Sustentabilidade)' if media_consumo_agua < 150 else '(Moderada Sustentabilidade)' if 150 <= media_consumo_agua <= 200 else '(Baixa Sustentabilidade)'}")
-    print(f"Média de consumo de energia: {media_consumo_energia} Kwh/Dia {'(Alta Sustentabilidade)' if media_consumo_energia < 5 else '(Moderada Sustentabilidade)' if 5 <= media_consumo_energia <= 10 else '(Baixa Sustentabilidade)'}")
-    print(f"Média de lixo total: {media_lixo_total} Kg {'(Alta Sustentabilidade)' if media_lixo_reciclavel > 50 else '(Moderada Sustentabilidade)' if 20 <= media_lixo_reciclavel <= 50 else '(Baixa Sustentabilidade)'}")
-    print(f"Média de lixo reciclável: {media_lixo_reciclavel}% {'(Alta Sustentabilidade)' if media_lixo_reciclavel > 50 else '(Moderada Sustentabilidade)' if 20 <= media_lixo_reciclavel <= 50 else '(Baixa Sustentabilidade)'}")
+    print(f"Média de consumo de água: {media_consumo_agua:.2f} Litros/Dia {'(Alta Sustentabilidade)' if media_consumo_agua < 150 else '(Moderada Sustentabilidade)' if 150 <= media_consumo_agua <= 200 else '(Baixa Sustentabilidade)'}")
+    print(f"Média de consumo de energia: {media_consumo_energia:.2f} Kwh/Dia {'(Alta Sustentabilidade)' if media_consumo_energia < 5 else '(Moderada Sustentabilidade)' if 5 <= media_consumo_energia <= 10 else '(Baixa Sustentabilidade)'}")
+    print(f"Média de lixo total: {media_lixo_total:.2f} Kg {'(Alta Sustentabilidade)' if media_lixo_reciclavel > 50 else '(Moderada Sustentabilidade)' if 20 <= media_lixo_reciclavel <= 50 else '(Baixa Sustentabilidade)'}")
+    print(f"Média de lixo reciclável: {media_lixo_reciclavel:.2f}% {'(Alta Sustentabilidade)' if media_lixo_reciclavel > 50 else '(Moderada Sustentabilidade)' if 20 <= media_lixo_reciclavel <= 50 else '(Baixa Sustentabilidade)'}")
     print(f"Opção de veículos: {resultado_op}")
     print(f"Data de entrada: {data}")
 
