@@ -158,7 +158,6 @@ def alterar_dados(novaagua, novalixoR, novalixoT, novaenergia, op, data):
 
 def apagar_dados(data):
     data = int(input("Informe a data que deseja apagar: "))
-    data = cifra_hill(str(data), key_matrix)
     conn = connect_to_database()
     cursor = conn.cursor()
     cursor.execute('''
@@ -169,8 +168,8 @@ def apagar_dados(data):
     conn.close()
 
 def consultar_dados(data):
-    data = int(input("Informe a data que deseja consultar: "))
-    data = cifra_hill(str(data), key_matrix)
+    if data is None:
+        data = int(input("Informe a data que deseja consultar: "))
     conn = connect_to_database()
     cursor = conn.cursor()
     cursor.execute('''
@@ -180,12 +179,21 @@ def consultar_dados(data):
     ''', (data,))
     registros = cursor.fetchall()
     for registro in registros:
-        print(f"Consumo de água: {decifra_num(registro[0], key_matrix)} Litros/Dia {"(Alta Sustentabilidade)" if decifra_num(registro[0], key_matrix) < 150 else "(Moderada Sustentabilidade)" if decifra_num(registro[0], key_matrix) >= 150 and decifra_num(registro[0], key_matrix) <= 200  else "(Baixa Sustentabilidade)"}, ")
-        print(f"Lixo reciclável: {decifra_num(registro[1], key_matrix)}% {"(Alta Sustentabilidade)" if decifra_num(registro[1], key_matrix) > 50 else "(Moderada Sustentabilidade)" if decifra_num(registro[1], key_matrix) >= 20 and decifra_num(registro[1], key_matrix) <= 50  else "(Baixa Sustentabilidade)"},")
-        print(f"Lixo total: {decifra_num(registro[2], key_matrix)} {"(Alta Sustentabilidade)" if decifra_num(registro[1], key_matrix) > 50 else "(Moderada Sustentabilidade)" if decifra_num(registro[1], key_matrix) >= 20 and decifra_num(registro[1], key_matrix) <= 50  else "(Baixa Sustentabilidade)"},")
-        print(f"Consumo de energia: {decifra_num(registro[3], key_matrix)} Kwh/Dia {"(Alta Sustentabilidade)" if decifra_num(registro[3], key_matrix) < 5 else "(Moderada Sustentabilidade)" if decifra_num(registro[3], key_matrix) >= 5 and decifra_num(registro[3], key_matrix) <= 10 else "(Baixa Sustentabilidade)"},")
-        print(f"Opção de veículos: {decifra_palavra(registro[4], key_matrix)}")
-        print(f"Data de entrada: {decifra_num(registro[5], key_matrix)}")
+        # Decifra os dados, substitui 'X' por '.' e converte para float
+        consumo_agua = float(decifra_num(registro[0], key_matrix).replace('X', '.'))
+        lixo_reciclavel = float(decifra_num(registro[1], key_matrix).replace('X', '.'))
+        lixo_total = float(decifra_num(registro[2], key_matrix).replace('X', '.'))
+        consumo_energia = float(decifra_num(registro[3], key_matrix).replace('X', '.'))
+        data_entrada = registro[5]
+        op_veiculos = decifra_palavra(registro[4], key_matrix)
+
+        # Exibe os dados com os testes condicionais
+        print(f"Consumo de água: {consumo_agua} Litros/Dia {'(Alta Sustentabilidade)' if consumo_agua < 150 else '(Moderada Sustentabilidade)' if 150 <= consumo_agua <= 200 else '(Baixa Sustentabilidade)'}")
+        print(f"Lixo reciclável: {lixo_reciclavel}% {'(Alta Sustentabilidade)' if lixo_reciclavel > 50 else '(Moderada Sustentabilidade)' if 20 <= lixo_reciclavel <= 50 else '(Baixa Sustentabilidade)'}")
+        print(f"Lixo total: {lixo_total} Kg {'(Alta Sustentabilidade)' if lixo_reciclavel > 50 else '(Moderada Sustentabilidade)' if 20 <= lixo_reciclavel <= 50 else '(Baixa Sustentabilidade)'}")
+        print(f"Consumo de energia: {consumo_energia} Kwh/Dia {'(Alta Sustentabilidade)' if consumo_energia < 5 else '(Moderada Sustentabilidade)' if 5 <= consumo_energia <= 10 else '(Baixa Sustentabilidade)'}")
+        print(f"Opção de veículos: {op_veiculos.replace('X','')}")
+        print(f"Data de entrada: {data_entrada}")
     cursor.close()
     conn.close()
 
@@ -213,10 +221,10 @@ def consultar_medias():
         return
 
     # Decifrar os dados
-    consumo_agua_decifrado = [decifra_num(registro[0], key_matrix) for registro in registros]
-    consumo_energia_decifrado = [decifra_num(registro[1], key_matrix) for registro in registros]
-    lixo_total_decifrado = [decifra_num(registro[2], key_matrix) for registro in registros]
-    lixo_reciclavel_decifrado = [decifra_num(registro[3], key_matrix) for registro in registros]
+    consumo_agua_decifrado = [float(decifra_num(registro[0], key_matrix)) for registro in registros]
+    consumo_energia_decifrado = [float(decifra_num(registro[1], key_matrix)) for registro in registros]
+    lixo_total_decifrado = [float(decifra_num(registro[2], key_matrix)) for registro in registros]
+    lixo_reciclavel_decifrado = [float(decifra_num(registro[3], key_matrix)) for registro in registros]
     opcoes_veiculos = [decifra_palavra(registro[4], key_matrix) for registro in registros]
 
     # Calcular as médias

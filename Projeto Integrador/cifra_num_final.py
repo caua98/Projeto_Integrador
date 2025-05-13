@@ -20,6 +20,7 @@ def inversa_modular(matrix, mod):
     det_inv = pow(det, -1, mod)  # Inverso modular do determinante
     adjugate = np.round(det * np.linalg.inv(matrix)).astype(int) % mod  # Matriz adjunta
     return (det_inv * adjugate) % mod
+
 # Função para codificar usando a cifra de Hill
 def cifra_hill(palavra, key_matrix):
     palavra = str(palavra).upper()
@@ -34,30 +35,34 @@ def cifra_hill(palavra, key_matrix):
         # Converte o par de letras em números
         vetor = np.array([[letras_num[par[0]]], [letras_num[par[1]]]])
         
-        # Multiplica pela matriz-chave e aplica módulo 26
+        # Multiplica pela matriz-chave e aplica módulo 10
         resultado = np.dot(key_matrix, vetor) % 10
         
         # Converte os números de volta para letras
-        mensagem_codificada += num_letras[resultado[0][0] if resultado[0][0] != 0 else 10]
-        mensagem_codificada += num_letras[resultado[1][0] if resultado[1][0] != 0 else 10]
+        mensagem_codificada += num_letras[resultado[0][0]]
+        mensagem_codificada += num_letras[resultado[1][0]]
     
     return mensagem_codificada
 
 def decifra_num(mensagem_codificada, key_matrix):
     mensagem_codificada = str(mensagem_codificada).upper()
-    inversa_key_matrix = inversa_modular(key_matrix, 10) # Calcula a matriz inversa no módulo 26
+    inversa_key_matrix = inversa_modular(key_matrix, 10)  # Calcula a matriz inversa no módulo 10
     pares = [mensagem_codificada[i:i+2] for i in range(0, len(mensagem_codificada), 2)]
     
     mensagem_decodificada = ""
     for par in pares:
+        # Adiciona um caractere de preenchimento se o par for incompleto
+        if len(par) == 1:
+            par += 'X'
+        
         # Converte o par de letras em números
         vetor = np.array([[letras_num[par[0]]], [letras_num[par[1]]]])
         
-        # Multiplica pela matriz inversa e aplica módulo 26
+        # Multiplica pela matriz inversa e aplica módulo 10
         resultado = np.dot(inversa_key_matrix, vetor) % 10
         
         # Converte os números de volta para letras
-        mensagem_decodificada += num_letras[resultado[0][0] if resultado[0][0] != 0 else 10]
-        mensagem_decodificada += num_letras[resultado[1][0] if resultado[1][0] != 0 else 10]
+        mensagem_decodificada += num_letras[resultado[0][0]]
+        mensagem_decodificada += num_letras[resultado[1][0]]
     
     return mensagem_decodificada
