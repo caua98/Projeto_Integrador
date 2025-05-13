@@ -92,7 +92,6 @@ def inserir_dados(consumoagua, LixoR, LixoT, consumoenergia, op, data):
 
 def alterar_dados(novaagua, novalixoR, novalixoT, novaenergia, op, data):
     data = int(input("Informe a data que deseja alterar: "))
-    data = cifra_hill(data, key_matrix)
     novaagua = float(input("Informe seu novo consumo de água informado na conta de água(Litros/Dia): "))
     novaagua = cifra_hill(str(novaagua), key_matrix)
     novalixoR = float(input("Informe a nova porcentagem de lixo reciclável: "))
