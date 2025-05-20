@@ -11,9 +11,9 @@ while op == "S":
     elif op1 == "3":
         apagar_dados(None)
     elif op1 == "4":
-        consultar_dados(None)
+        consultar_dados()
     elif op1 == "5":
-        consultar_medias(None)
+        consultar_medias()
     elif op1 == "6":
         print("Saindo...")
         op = "N"

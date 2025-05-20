@@ -9,60 +9,31 @@ letras_num = {
     'X': 10
 }
 
-# Atualiza o dicionário inverso para incluir o ponto
 num_letras = {v: k for k, v in letras_num.items()}
 
-# Matriz-chave (2x2 para pares de letras)
-key_matrix = np.array([[3, 3], [2, 5]])
+CESAR_SHIFT = 3  # Deslocamento da cifra de César
+CESAR_MOD = 12   # Modulo para cobrir 0-9, X(10), .(11)
 
-def inversa_modular(matrix, mod):
-    det = int(np.round(np.linalg.det(matrix)))  # Determinante da matriz
-    det_inv = pow(det, -1, mod)  # Inverso modular do determinante
-    adjugate = np.round(det * np.linalg.inv(matrix)).astype(int) % mod  # Matriz adjunta
-    return (det_inv * adjugate) % mod
-
-# Função para codificar usando a cifra de Hill
-def cifra_hill(palavra, key_matrix):
+def cifra_cesar(palavra):
     palavra = str(palavra).upper()
-    pares = [palavra[i:i+2] for i in range(0, len(palavra), 2)]
-    
-    # Adiciona um caractere de preenchimento se o número de letras for ímpar
-    if len(pares[-1]) == 1:
-        pares[-1] += 'X'
-    
     mensagem_codificada = ""
-    for par in pares:
-        # Converte o par de letras em números
-        vetor = np.array([[letras_num[par[0]]], [letras_num[par[1]]]])
-        
-        # Multiplica pela matriz-chave e aplica módulo 10
-        resultado = np.dot(key_matrix, vetor) % 10
-        
-        # Converte os números de volta para letras
-        mensagem_codificada += num_letras[resultado[0][0]]
-        mensagem_codificada += num_letras[resultado[1][0]]
-    
+    for char in palavra:
+        if char in letras_num:
+            valor = letras_num[char]
+            cifrado = (valor + CESAR_SHIFT) % CESAR_MOD
+            mensagem_codificada += num_letras[cifrado]
+        else:
+            mensagem_codificada += char  # mantém caracteres não mapeados
     return mensagem_codificada
 
-def decifra_num(mensagem_codificada, key_matrix):
+def decifra_cesar(mensagem_codificada):
     mensagem_codificada = str(mensagem_codificada).upper()
-    inversa_key_matrix = inversa_modular(key_matrix, 10)  # Calcula a matriz inversa no módulo 10
-    pares = [mensagem_codificada[i:i+2] for i in range(0, len(mensagem_codificada), 2)]
-    
     mensagem_decodificada = ""
-    for par in pares:
-        # Adiciona um caractere de preenchimento se o par for incompleto
-        if len(par) == 1:
-            par += 'X'
-        
-        # Converte o par de letras em números
-        vetor = np.array([[letras_num[par[0]]], [letras_num[par[1]]]])
-        
-        # Multiplica pela matriz inversa e aplica módulo 10
-        resultado = np.dot(inversa_key_matrix, vetor) % 10
-        
-        # Converte os números de volta para letras
-        mensagem_decodificada += num_letras[resultado[0][0]]
-        mensagem_decodificada += num_letras[resultado[1][0]]
-    
+    for char in mensagem_codificada:
+        if char in letras_num:
+            valor = letras_num[char]
+            decifrado = (valor - CESAR_SHIFT) % CESAR_MOD
+            mensagem_decodificada += num_letras[decifrado]
+        else:
+            mensagem_decodificada += char
     return mensagem_decodificada

@@ -24,7 +24,7 @@ while controle == "S":
              data = input("Data inválida, insira uma data válida: ")
         except ValueError:
             data = input("Data inválida, insira uma data válida: ")
-        dataC = cifra_hill(data, key_matrix)
+        dataC = cifra_cesar(data, key_matrix)
     #Entrada de consumo de água e validação do dado
         try:
             consumoagua = float(input("Informe seu consumo de água informado na conta de água(Litros/Dia): "))
@@ -32,7 +32,7 @@ while controle == "S":
                 consumoagua = float(input("Valor inválido, insira um valor válido: "))
         except ValueError:
             consumoagua = float(input("Valor inválido, insira um valor válido: "))
-        consumoaguaC = cifra_hill(str(consumoagua).replace(".", ""), key_matrix)
+        consumoaguaC = cifra_cesar(str(consumoagua).replace(".", ""), key_matrix)
     #Entrada do Lixo Reciclável e validação do dado
         try:
             LixoR = float(input("Informe a porcentagem de lixo reciclável: "))
@@ -40,7 +40,7 @@ while controle == "S":
                 LixoR = float(input("Valor inválido, insira um valor válido: "))
         except ValueError:
             LixoR = float(input("Valor inválido, insira um valor válido: "))
-        LixoRC = cifra_hill(str(LixoR).replace(".", ""), key_matrix)
+        LixoRC = cifra_cesar(str(LixoR).replace(".", ""), key_matrix)
 
     
     #Entrada do Lixo Total e validação do dado
@@ -50,7 +50,7 @@ while controle == "S":
                 LixoT = float(input("Valor inválido, insira um valor válido: "))
         except ValueError:
             LixoT = float(input("Valor inválido, insira um valor válido: "))
-        LixoTC = cifra_hill(str(LixoT).replace(".", ""), key_matrix)
+        LixoTC = cifra_cesar(str(LixoT).replace(".", ""), key_matrix)
     
     #Entrada do consumo de energia e validação do dado
         try:
@@ -59,7 +59,7 @@ while controle == "S":
                 consumoenergia = float(input("Valor inválido, insira um valor válido: "))
         except ValueError:
             consumoenergia = float(input("Valor inválido, insira um valor válido: "))
-        consumoenergiaC = cifra_hill(str(consumoenergia).replace(".", ""), key_matrix)
+        consumoenergiaC = cifra_cesar(str(consumoenergia).replace(".", ""), key_matrix)
     #entrada da opção de veículos e validação da opção escolhida
         try:
             bicicleta = input("Você utiliza bicicleta como meio de transporte?(S / N): ")
@@ -118,7 +118,7 @@ while controle == "S":
                 data = int(input("Data inválida, insira uma data válida: "))
         except ValueError:
             data = int(input("Data inválida, insira uma data válida: "))
-        dataC = cifra_hill(str(data), key_matrix)
+        dataC = cifra_cesar(str(data), key_matrix)
         fetch_averages_by_date(data)
     #ver se o usuário quer realizar denovo
     controle = input("Quer fazer uma nova consulta?(S / N): ")
