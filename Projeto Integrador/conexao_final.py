@@ -1,6 +1,6 @@
 import mysql.connector
 from cifra_de_palavra import *
-from cifra_num_final import *
+
 def connect_to_database():
     try:
         connection = mysql.connector.connect(
@@ -19,13 +19,9 @@ def connect_to_database():
 def inserir_dados(consumoagua, LixoR, LixoT, consumoenergia, op, data):
     conn = connect_to_database()
     consumoagua = float(input("Informe seu consumo de água informado na conta de água(Litros/Dia): "))
-    consumoagua = cifra_cesar(str(consumoagua), )
     LixoR = float(input("Informe a porcentagem de lixo reciclável: "))
-    LixoR = cifra_cesar(str(LixoR), )
     LixoT = float(input("Informe quantos Kg de lixo total você produz: "))
-    LixoT = cifra_cesar(str(LixoT), )
     consumoenergia = float(input("Informe seu consumo de energia informado na sua conta de energia(Kwh/Dia): "))
-    consumoenergia = cifra_cesar(str(consumoenergia), )
     try:
         bicicleta = input("Você utiliza bicicleta como meio de transporte?(S / N): ")
         while bicicleta != "S" and bicicleta != "N":
@@ -93,13 +89,9 @@ def inserir_dados(consumoagua, LixoR, LixoT, consumoenergia, op, data):
 def alterar_dados(novaagua, novalixoR, novalixoT, novaenergia, op, data):
     data = int(input("Informe a data que deseja alterar: "))
     novaagua = float(input("Informe seu novo consumo de água informado na conta de água(Litros/Dia): "))
-    novaagua = cifra_cesar(str(novaagua), )
     novalixoR = float(input("Informe a nova porcentagem de lixo reciclável: "))
-    novalixoR = cifra_cesar(str(novalixoR), )
     novalixoT = float(input("Informe quantos Kg de lixo total você produz: "))
-    novalixoT = cifra_cesar(str(novalixoT), )
     novaenergia = float(input("Informe seu novo consumo de energia informado na sua conta de energia(Kwh/Dia): "))
-    novaenergia = cifra_cesar(str(novaenergia), )
     try:
         bicicleta = input("Você utiliza bicicleta como meio de transporte?(S / N): ")
         while bicicleta != "S" and bicicleta != "N":
@@ -175,15 +167,13 @@ def consultar_dados():
     ''')
     registros = cursor.fetchall()
     for registro in registros:
-        # Decifra os dados, substitui 'X' por '.' e converte para float
-        consumo_agua = float(decifra_cesar(registro[0]).replace('X', '.'))
-        lixo_reciclavel = float(decifra_cesar(registro[1]).replace('X', '.'))
-        lixo_total = float(decifra_cesar(registro[2]).replace('X', '.'))
-        consumo_energia = float(decifra_cesar(registro[3]).replace('X', '.'))
+        consumo_agua = registro[0]
+        lixo_reciclavel = registro[1]
+        lixo_total = registro[2]
+        consumo_energia = registro[3]
         data_entrada = registro[5]
         op_veiculos = decifra_palavra(registro[4], key_matrix)
 
-        # Exibe os dados com os testes condicionais
         print(f"Data: {data_entrada}")
         print(f"Consumo de água: {consumo_agua} Litros/Dia {'(Alta Sustentabilidade)' if consumo_agua < 150 else '(Moderada Sustentabilidade)' if 150 <= consumo_agua <= 200 else '(Baixa Sustentabilidade)'}")
         print(f"Lixo reciclável: {lixo_reciclavel}% {'(Alta Sustentabilidade)' if lixo_reciclavel > 50 else '(Moderada Sustentabilidade)' if 20 <= lixo_reciclavel <= 50 else '(Baixa Sustentabilidade)'}")
@@ -213,26 +203,22 @@ def consultar_medias():
         conn.close()
         return
 
-    # Decifrar os dados
-    consumo_agua_decifrado = [float(decifra_cesar(registro[0]).replace('X', '.')) for registro in registros]
-    consumo_energia_decifrado = [float(decifra_cesar(registro[1]).replace('X', '.')) for registro in registros]
-    lixo_total_decifrado = [float(decifra_cesar(registro[2]).replace('X', '.')) for registro in registros]
-    lixo_reciclavel_decifrado = [float(decifra_cesar(registro[3]).replace('X', '.')) for registro in registros]
+    consumo_agua_decifrado = [registro[0] for registro in registros]
+    consumo_energia_decifrado = [registro[1] for registro in registros]
+    lixo_total_decifrado = [registro[2] for registro in registros]
+    lixo_reciclavel_decifrado = [registro[3] for registro in registros]
     opcoes_veiculos = [decifra_palavra(registro[4], key_matrix) for registro in registros]
 
-    # Calcular as médias
     media_consumo_agua = sum(consumo_agua_decifrado) / len(consumo_agua_decifrado)
     media_consumo_energia = sum(consumo_energia_decifrado) / len(consumo_energia_decifrado)
     media_lixo_total = sum(lixo_total_decifrado) / len(lixo_total_decifrado)
     media_lixo_reciclavel = sum(lixo_reciclavel_decifrado) / len(lixo_reciclavel_decifrado)
 
-    # Determinar a sustentabilidade com base nas opções de veículos
     if len(set(opcoes_veiculos)) == 1:
         resultado_op = opcoes_veiculos[0]
     else:
         resultado_op = "MODERADA"
 
-    # Exibir os resultados
     print(f"Média de consumo de água: {media_consumo_agua:.2f} Litros/Dia {'(Alta Sustentabilidade)' if media_consumo_agua < 150 else '(Moderada Sustentabilidade)' if 150 <= media_consumo_agua <= 200 else '(Baixa Sustentabilidade)'}")
     print(f"Média de consumo de energia: {media_consumo_energia:.2f} Kwh/Dia {'(Alta Sustentabilidade)' if media_consumo_energia < 5 else '(Moderada Sustentabilidade)' if 5 <= media_consumo_energia <= 10 else '(Baixa Sustentabilidade)'}")
     print(f"Média de lixo total: {media_lixo_total:.2f} Kg {'(Alta Sustentabilidade)' if media_lixo_reciclavel > 50 else '(Moderada Sustentabilidade)' if 20 <= media_lixo_reciclavel <= 50 else '(Baixa Sustentabilidade)'}")
@@ -241,4 +227,3 @@ def consultar_medias():
 
     cursor.close()
     conn.close()
-
