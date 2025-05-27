@@ -148,9 +148,14 @@ def alterar_dados(novaagua, novalixoR, novalixoT, novaenergia, op, data):
     conn.close()
 
 def apagar_dados(data):
+    certeza = ""
     data = int(input("Informe a data que deseja apagar: "))
     conn = connect_to_database()
     cursor = conn.cursor()
+    while certeza != "S" and certeza != "N":
+        certeza = input("Têm certeza que quer apagar?(S/N): ").upper()
+    if certeza == "N":
+        return
     cursor.execute('''
         DELETE FROM dados_sustentavel WHERE data_entrada = %s
     ''', (data,))
